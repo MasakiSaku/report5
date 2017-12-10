@@ -17,7 +17,27 @@ public class Hero extends LivingThing {
         System.out.printf("%sのHPは%d。攻撃力は%dです。\n", name, maximumHP, attack);
     }
 
-
+    @Override
+    public void attack(LivingThing opponent){
+        if (isDead()==false){
+            int damage = (int) (Math.random() * getAttack());
+            //ダメージが０かどうかの判定
+            if (damage == 0){
+                System.out.printf("%sの攻撃！,,,だが、%sは攻撃を回避した！\n", getName(), opponent.getName());
+            }
+            else {
+                int critical_hit = (int) (Math.random() * 10 +1);
+                if (critical_hit <= 4){
+                    //クリティカルだった場合
+                    damage = damage*2;
+                    System.out.printf("%sの攻撃！会心の一撃！！%sに%dのダメージを与えた！！\n",getName(),opponent.getName(),damage);
+                } else{
+                    System.out.printf("%sの攻撃！%sに%dのダメージを与えた！！\n", getName(), opponent.getName(), damage);
+                }
+                opponent.wounded(damage);
+            }
+        }
+    }
     /**
      * 自身へ攻撃されたときのダメージ処理をするメソッド。
      * 指定されたダメージを hitPoint から引き、死亡判定を行う。
